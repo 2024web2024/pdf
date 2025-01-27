@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit-PDF</title>
+    <link rel="icon" href="icons.png" type="image/png" sizes="16x16">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+    <style>
+        body {
+            background-color: #343a40;
+        }
+        .navbar {
+            position: relative;
+        }
+        #navbarNavAltMarkup {
+            background-color: #f8f9fa;
+            position: absolute;
+            z-index: 5;
+            width: 100%;
+            right: 0;
+            border-top: 2px solid #6c757d;
+            top: 50px;
+            box-shadow: 0 10px 10px #6c757d;
+        }
+        .navbar #follow {
+            display: flex;
+            /* gap: 5px; */
+        }
+        .nav-item {
+            text-align: right;
+            text-indent: 20px;
+        }
+        #tools {
+            display: flex;
+        }
+        #tools div {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 0;
+            margin: 2.5px 0;
+            background-color: #f8f9fa;
+        }
+        #tool button {
+            background-color: #e2e6ea;
+        }
+        #google_translate_element div {
+            border: none !important;
+        }
+        .section {
+            width: 98%;
+            margin: 1%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 0;
+            background-color: #6c757d;
+        }
+        
+        .section h5 {
+            text-align: center;
+            padding: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        #imageContainer {
+            margin: 15px 0;
+            /* height: 5vh; */
+            padding: 10px 0;
+            overflow: auto;
+            display: flex;
+            direction: ltr;
+        }
+
+        #imageContainer ,.section h5 ,#imageContainer img ,#uploadImages ,#btnMerge ,#btnSplitPdf
+         ,#uploadPdf ,#split_start_end ,#uploadPdf-watermark ,#PDFinfo ,#info {
+            width: 98%;
+        }
+        #PDFinfo , #imageContainer ,#section ,#uploadPdf ,#btnMerge 
+        ,#btnSplitPdf ,#split_start_end ,#uploadPdf-watermark ,#tools div 
+        ,.section h5 ,#uploadImages ,#info {
+            background-color: #f8f9fa;
+        }
+
+        #split_start_end span {
+            text-align: center;
+        }
+        #split_start_end * {
+            font-size: small;
+        }
+        #split_start_end input {
+            width: 100px;
+        }
+        #btnMerge ,#btnSplitPdf ,#split_start_end {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            margin: 10px 0;
+            
+        }
+        /* #imageContainer #imageContainer {
+            overflow: auto;
+            display: flex;
+        } */
+        #imageContainer div {
+            margin-left: 2%;
+            position: relative;
+            background-color: #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid;
+        }
+        #imageContainer div i {
+            position: absolute;
+            z-index: 1;
+            line-height: 0 !important;
+            right: 0;
+            top: 0;
+            color: red;
+        }
+        #imageContainer img {
+            height: 100px;
+            width: 100px;
+            object-fit: contain;
+        }
+        #PDFinfo {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 10px 0;
+            padding: 5px 0;
+        }
+
+        @media screen and (max-width: 360px) {
+            #PDFinfo * {
+                font-size: 10px !important;
+            }
+            #PDFinfo .btn {
+                padding: 2px !important;
+            }
+        }
+        @media screen and (max-width: 250px) {
+            #PDFinfo {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+
+        /* From Uiverse.io by omar49511 */
+        #uploadImages ,#uploadPdf {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            /* max-height: 50vh; */
+        }
+        #uploadImages span ,#uploadPdf span{
+            margin: 0 5px;
+        }
+        .bi-cloud-arrow-up {
+            font-size: xx-large;
+            margin-left: 5px;
+        }
+        #uploadPdf-watermark {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 7px 0;
+            gap: 10px;
+        }
+        #uploadPdf-watermark input {
+            height: max-content;
+            border: 2px inset #343a40;
+            border-radius: 5px;
+            text-align: left;
+        }
+        #uploadPdf-watermark input::placeholder {
+            font-size: small;
+        }
+        .container-btn-file {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            background-color: #307750;
+            color: #fff;
+            border-style: none;
+            padding: .3em 1em;
+            border-radius: 0.5em;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 4px 8px 10px -3px rgba(0, 0, 0, 0.356);
+            transition: all 250ms;
+        }
+        .container-btn-file input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .container-btn-file > i {
+            margin: 0 .5em;
+        }
+        .container-btn-file::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 0;
+            border-radius: 0.5em;
+            background-color: #469b61;
+            z-index: -1;
+            transition: all 350ms;
+        }
+        .container-btn-file:hover::before {
+            width: 100%;
+        }
+
+        #output {
+            width: 70%;
+            position: absolute;
+            z-index: -10;
+            display: flex;
+            opacity: 0;
+            overflow: auto !important;
+        }
+
+        .btn {
+            padding: 5px !important;
+            font-size: 12px !important;
+        }
+        #dropdown , #dropdown_show_sections {
+            position: relative;
+        }
+        #dropdown div {right: -35px;}
+        #dropdown div ,#dropdown_show_sections div {
+            position: absolute;
+            display: none;
+            gap: 10px;
+            top: 100%;
+            z-index: 2;
+            border-radius: 7px;
+            border: 1px outset #343a40;
+            background-color: #f8f9fa;
+        }
+        #dropdown div span ,#dropdown_show_sections div span {
+            display: flex;
+            padding: 4px;
+        }
+        #dropdown_show_sections div span {
+            width: 100%;
+            padding: 5px;
+            font-size: 12px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            justify-content: space-between;
+        }
+        #dropdown_show_sections div {
+            flex-direction: column;
+            width: max-content;
+            left: 0;
+        }
+        #dropdown_show_sections div img {
+            width: 25px;
+            height: 25px;
+        }
+        #dropdown_show_sections button {
+            font-weight: bold;
+        }
+        #dropdown div span i {
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+        }
+        #two-vertical {
+            transform: rotate(90deg);
+        }
+        #two-vertical i {
+            border-bottom: none !important;
+            border-right: 3px solid transparent;
+        }
+        #info {
+            margin: 10px 0;
+        }
+        #info li {
+            text-align: right;
+            font-size: small;
+            font-weight: 400;
+        }
+        .VIpgJd-yAWNEb-L7lbkb {display: none !important;}
+
+        footer {
+            width: 100%;
+            text-align: center;
+            font-size: small;
+            color: #e2e6ea;
+            position: absolute;
+            padding: 10px 0;
+            bottom: 5px;
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#"> الرئيسية <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#"> شروط الاستخدام </a>
+            <a class="nav-item nav-link" href="#"> من نحن </a>
+            <a class="nav-item nav-link" href="#"> اتصل بنا </a>
+            <hr style="border: 1px solid #343a40;width: 90%;">
+            <div id="follow">
+                <a class="nav-item nav-link" href="#"><i class="bi bi-facebook"></i></a>
+                <a class="nav-item nav-link" href="#"><i class="bi bi-instagram"></i></a>
+                <a class="nav-item nav-link" href="#"><i class="bi bi-tiktok"></i></a>
+            </div>
+          </div>
+        </div>
+    </nav>
+    <!-- 'en,ru,hi,de,it,zh-CN,zh-TW' -->
+    <div id="tools">
+        <div id="google_translate_element"></div>
+
+        <div>
+            <span id="dropdown_show_sections">
+                <button type="button" class="btn">
+                    الادوات ∨
+                </button>
+                <div>
+                    <span id="show_convert" class="convert_pdf">
+                        تحويل الصور الى pdf
+                        <img src="./convert.png" alt="" srcset="">
+                    </span>
+                    <span id="show_merge" class="merge_pdf">
+                        دمج ملفات pdf
+                        <img src="./merge.png" alt="" srcset="">
+                    </span>
+                    <span id="show_split" class="split_file_pdf">
+                        تقسم ملف pdf
+                        <img src="./split.png" alt="" srcset="">
+                    </span>
+                    <span id="show_watermark" class="watermark">
+                        اضافة علامة مائية
+                        <img src="./watermark.png" alt="" srcset="">
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+
+
+    <section id="convert_pdf" style="display: flex;" class="section">
+
+        <div id="output"></div>
+
+        <h5> تحويل الصور الى ملف pdf </h5>
+
+        <div id="imageContainer">
+
+            <!-- <button type="button" id="BtnUploadImages" class="container-btn-file" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/i" width="23" height="23" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+                <input name="text" id="inpUploadImages-2" type="file" multiple />
+            </button> -->
+            
+            <div id="imageContainer-2">
+                
+            </div>
+        </div>
+
+        <div id="uploadImages">
+            <button type="button" class="container-btn-file">
+                <i class="bi bi-cloud-arrow-up"></i>
+                اختر صور/ة
+                <input id="inpUploadImages" name="text" accept="image/*" type="file" multiple />
+            </button>
+            <span id="numImgs"></span>
+        </div>
+
+        <div id="PDFinfo">
+            <span id="numpage">
+                عدد الصفحات: <span></span>
+            </span>
+
+            <span id="dropdown">
+                <button type="button" class="btn btn-warning">
+                    التنسيق ∨
+                </button>
+                <div>
+                    <span id="default">
+                        <i class="bi bi-app" style="border-color: red;"></i>
+                    </span>
+                    <span id="four">
+                        <i class="bi bi-border-all"></i>
+                    </span>
+                    <span id="two-horizontal">
+                        <i class="bi bi-layout-split"></i>
+                    </span>
+                    <span id="two-vertical">
+                        <i class="bi bi-layout-split"></i>
+                    </span>
+                </div>
+            </span>
+
+            <div>
+                <button type="button" id="BtnConvertPdf" disabled class="btn btn-primary" >
+                    تحويل
+                </button>
+                <span id="progress">0%</span>
+            </div>
+            <button type="button" id="btnNewConvert" class="btn btn-success" disabled>
+                جديد
+            </button>
+        </div>
+
+        <div id="info">
+            <ul>
+                <li> اختر صورة او مجموعه من الصورة. </li>
+                <li> اختر تنسيق كل صورة في صفحة ,رباعي ,افقي ,عمودي. </li>
+                <li> اضغط على  تحويل لتجهيز الملف. </li>
+                <li> سيتم تحميل الملف تلقائياً. </li>
+            </ul>
+        </div>
+
+    </section>
+
+    <section id="merge_pdf" class="section">
+
+        <div id="output"></div>
+
+        <h5> دمج ملفات pdf </h5>
+
+        <div id="uploadPdf">
+            <button type="button" class="container-btn-file">
+                <i class="bi bi-cloud-arrow-up"></i>
+                اختر ملفين او اكثر
+                <input id="inpUploadPdf" name="text" accept="application/pdf" type="file" multiple />
+            </button>
+            <span id="numPdf"></span>
+            
+        </div>
+
+        <div id="btnMerge">
+            <div>
+                <button  onclick="mergePDFs()" id="BtnMergePdf" disabled class="btn btn-primary" >
+                    دمـــج الملفات
+                </button>
+                <span id="progress-text"></span>
+            </div>
+
+            <button type="button" id="btnNewMerge" class="btn btn-success" disabled>
+                جديد
+            </button>
+        </div>
+
+
+        <div id="info">
+            <ul>
+                <li> اختر ملف او مجموعه من ملفات pdf. </li>
+                <li> اضغط على  دمج لدمج الملفات. </li>
+                <li> سيتم تحميل الملف المدمج تلقائياً. </li>
+            </ul>
+        </div>
+
+    </section>
+    <!-- تقسيم الملف -->
+    <section id="split_file_pdf" class="section">
+
+        <h5> تقسيم ملف pdf </h5>
+
+        <div id="uploadPdf">
+            <button type="button" class="container-btn-file">
+                <i class="bi bi-cloud-arrow-up"></i>
+                اختر ملف
+                <input id="inpSplitPdf" name="text" accept="application/pdf" type="file" multiple />
+            </button>
+
+        </div>
+
+        <div id="split_start_end">
+            <span>
+                <label for="start-page">الصفحة البداية:</label>
+                <input type="number" id="start-page" min="1">
+            </span>
+            <span>
+                <label for="end-page">الصفحة النهاية:</label>
+                <input type="number" id="end-page" min="1">
+            </span>
+        </div>
+
+        <div id="btnSplitPdf">
+            <div>
+                <button type="button" onclick="splitAndMergePDF()" id="BtnSplitPdf" disabled class="btn btn-primary" >
+                    تقسيم
+                </button>
+                <span id="progress-Split"></span>
+            </div>
+
+            <button type="button" id="btnNewSplit" class="btn btn-success" disabled>
+                جديد
+            </button>
+        </div>
+
+        <div id="info">
+            <ul>
+                <li> اختر ملف pdf. </li>
+                <li> ادخل رقم صفحة البداية والنهاية. </li>
+                <li> اضغط على  تقسم لتسقيم الملف. </li>
+                <li> سيتم تحميل الملف الجديد تلقائياً. </li>
+            </ul>
+        </div>
+
+    </section>
+    <!-- علامة مائية -->
+    <section id="watermark" class="section">
+
+        <h5> اضافة علامة مائية لملف pdf </h5>
+
+        <div id="uploadPdf-watermark">
+            <button type="button" class="container-btn-file">
+                <i class="bi bi-cloud-arrow-up"></i>
+                اختر ملف
+                <input id="inpWatermarkPdf" name="text" accept="application/pdf" type="file" />
+            </button>
+            <input type="text" id="inpWatermark-text" placeholder="أدخل نص العلامة المائية بالانجليزي" />
+        </div>
+
+        <div id="btnSplitPdf">
+            <div>
+                <button id="BtnAddWatermark" onclick="addWatermark()" disabled class="btn btn-primary" >إضافة العلامة المائية</button>
+                <span id="progress-Watermark"></span>
+            </div>
+
+            <button type="button" id="btnNewWatermark" class="btn btn-success" disabled>
+                جديد
+            </button>
+        </div>
+
+        <div id="info">
+            <ul>
+                <li> اختر ملف pdf. </li>
+                <li> ادخل نص العلامة المائية </li>
+                <li> اضغط على  اضافة العلامة المائية. </li>
+                <li> سيتم تحميل الملف الجديد تلقائياً. </li>
+            </ul>
+        </div>
+
+    </section>
+    <footer>
+        جميع حقوق المشر محفظة - Edit-PDF 2024 
+    </footer>
+    
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+
+    <script>
+
+        // دمج الملفات
+        $(function () {
+
+            // اظهار الادوات
+            $("#dropdown_show_sections button").click(function () {
+                let div_display = $("#dropdown_show_sections div").css("display");
+
+                if(div_display == "none") {
+                    $(this).text("الادوات ∧")
+                    $("#dropdown_show_sections div").css("display" ,"flex")
+                } else {
+                    $(this).text("الادوات ∨")
+                    $("#dropdown_show_sections div").css("display" ,"none")
+                } 
+            })
+            $("#dropdown_show_sections span").click(function () {
+                let className = $(this).attr("class")
+
+                $("#convert_pdf ,#merge_pdf ,#split_file_pdf ,#watermark").removeAttr("style")
+                $(`section#${className}`).css("display" ,"flex")
+
+                $("#dropdown_show_sections button").text("الادوات ∨")
+                $("#dropdown_show_sections div").css("display" ,"none")
+                $("#dropdown_show_sections span").css("border-color" ,"")
+                $(this).css("border-color" ,"red")
+
+            })
+
+            $("#inpWatermark-text").on("input" ,function () {
+                const value = $(this).val()
+                if(/[^a-zA-Z\s]/.test(value)) {
+                    $(this).val(value.replace(/[^a-zA-Z\s]/g ,''))
+                }
+            })
+            // علامة مائية
+            $("#inpWatermarkPdf").change(function () {
+                $("#BtnAddWatermark ,#btnNewWatermark").attr("disabled" ,false)
+            })
+            // علامة مائية جديد
+            $("#btnNewWatermark").click(function () {
+                $("#inpWatermark-text ,#inpWatermarkPdf").val("")
+                $("#BtnAddWatermark ,#btnNewWatermark").attr("disabled" ,true)
+                $("#progress-Watermark").text("")
+            })
+            // تقسيم الملف
+            $("#inpSplitPdf").change(function () {
+                $("#BtnSplitPdf ,#btnNewSplit").attr("disabled" ,false)
+            })
+            // تقسيم جديد
+            $("#btnNewSplit").click(function () {
+                $("#inpSplitPdf ,#split_start_end input").val("")
+                $("#progress-Split").text("")
+                $("#BtnSplitPdf ,#btnNewSplit").attr("disabled" ,true)
+            })
+            // دمج الملفات
+            $("#inpUploadPdf").change(function () {
+                $("#numPdf").text(this.files.length)
+                $("#BtnMergePdf ,#btnNewMerge").attr("disabled" ,false)
+            })
+            // دمج جديد
+            $("#btnNewMerge").click(function () {
+                $("#inpUploadPdf").val("")
+                $("#numPdf ,#progress-text").text("")
+                $("#BtnMergePdf ,#btnNewMerge").attr("disabled" ,true)
+            })
+        })
+
+        // علامة مائية
+        async function addWatermark() {
+            const inputFile = document.getElementById('inpWatermarkPdf');
+            const watermarkText = document.getElementById('inpWatermark-text').value;
+            const progressText = document.getElementById('progress-Watermark');
+
+            // التحقق من أن الملف موجود
+            if (!inputFile.files.length) {
+                swal("يرجى اختيار ملف PDF.");
+                return;
+            }
+
+            const file = inputFile.files[0];
+
+            // التحقق من أن الملف هو PDF
+            if (file.type !== "application/pdf") {
+                swal({
+                    title: "خطأ!",
+                    text: "يرجى اختيار ملف بصيغة PDF فقط.",
+                    type: "error",
+                    confirmButtonText: "حـسـنـاً"
+                });
+                return;
+            }
+
+            if (!watermarkText) {
+                swal("يرجى إدخال نص العلامة المائية.");
+                return;
+            }
+
+            try {
+                const fileBytes = await file.arrayBuffer();
+
+                const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
+
+                const pages = pdfDoc.getPages();
+                const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+
+                const numberOfPages = pages.length;
+                let processedPages = 0;
+
+                for (let page of pages) {
+                    const { width, height } = page.getSize();
+
+                    // حساب موقع العلامة المائية ليكون في منتصف الصفحة
+                    const textWidth = font.widthOfTextAtSize(watermarkText, 30);
+                    const textHeight = 30; // نفس حجم النص
+
+                    page.drawText(watermarkText, {
+                        x: (width - textWidth) / 2, // المنتصف أفقياً
+                        y: (height - textHeight) / 4, // المنتصف عمودياً
+                        size: 100,
+                        font: font,
+                        color: PDFLib.rgb(0.5, 0.5, 0.5), // اللون الرمادي
+                        opacity: 0.5, // نصف شفاف
+                        rotate: PDFLib.degrees(45),
+                    });
+
+                    // تحديث النسبة المئوية
+                    processedPages++;
+                    const progressPercentage = Math.floor((processedPages / numberOfPages) * 100);
+                    progressText.textContent = `${progressPercentage}%`;
+                }
+
+                const pdfBytesModified = await pdfDoc.save();
+                const blob = new Blob([pdfBytesModified], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'watermarked.pdf';
+                a.click();
+
+                URL.revokeObjectURL(url);
+                swal("الملف جاهز!", "تمت إضافة العلامة المائية بنجاح!", "success")
+                progressText.textContent = "100%"; // عند الانتهاء
+            } catch (error) {
+                console.error("حدث خطأ أثناء إضافة العلامة المائية:", error);
+                swal({
+                    title: "حدث خطأ!",
+                    text: "حدث خطأ أثناء معالجة الملف.",
+                    type: "error",
+                    confirmButtonText: "حـسـنـاً"
+                });
+                progressText.textContent = "0%"; // في حالة حدوث خطأ
+            }
+        }
+
+        
+        // ____________________________________________________________
+        // تقسيم الملف
+        async function splitAndMergePDF() {
+            const inputFile = document.getElementById('inpSplitPdf');
+            const progressText = document.getElementById('progress-Split');
+            const startPageInput = document.getElementById('start-page');
+            const endPageInput = document.getElementById('end-page');
+            
+            // التحقق من وجود ملف PDF
+            if (!inputFile.files.length) {
+                swal("يرجى اختيار ملف PDF.");
+                return;
+            }
+
+            const file = inputFile.files[0];
+
+            // التحقق من أن الملف هو PDF
+            if (file.type !== "application/pdf") {
+                swal({
+                    title: "خطأ!",
+                    text: "يرجى اختيار ملف بصيغة PDF فقط.",
+                    type: "error",
+                    confirmButtonText: "حـسـنـاً"
+                });
+                return;
+            }
+
+            // التحقق من إدخال الصفحة البداية والنهاية
+            const startPage = parseInt(startPageInput.value);
+            const endPage = parseInt(endPageInput.value);
+
+            if(startPage < 1) {
+                startPage = 1;
+            }
+            if(endPage < 1) {
+                endPage = 2;
+            }
+
+            if (isNaN(startPage) || isNaN(endPage) || startPage < 1 || endPage < 1 || startPage > endPage) {
+                swal("تنبية!", "يرجى إدخال صفحات صحيحة (البداية أقل من النهاية).")
+                return;
+            }
+
+            try {
+                const fileBytes = await file.arrayBuffer();
+
+                // تحميل محتوى PDF باستخدام pdf-lib
+                const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
+                const totalPages = pdfDoc.getPages().length;
+
+                // التحقق من أن الصفحة النهاية لا تتجاوز إجمالي عدد الصفحات
+                if (endPage > totalPages) {
+                    swal({
+                        title: "خطأ!",
+                        text: "الصفحة النهاية أكبر من عدد الصفحات في الملف.",
+                        type: "error",
+                        confirmButtonText: "حـسـنـاً"
+                    });
+                    return;
+                }
+
+                const newPdf = await PDFLib.PDFDocument.create();
+                let processedPages = 0;
+
+                // تقسيم الملف بناءً على النطاق المحدد ودمج الصفحات في ملف واحد
+                for (let i = startPage - 1; i < endPage; i++) {
+                    const [page] = await newPdf.copyPages(pdfDoc, [i]);
+                    newPdf.addPage(page);
+
+                    // تحديث النسبة المئوية
+                    processedPages++;
+                    const progressPercentage = Math.floor((processedPages / (endPage - startPage + 1)) * 100);
+                    progressText.textContent = `${progressPercentage}%`;
+                }
+
+                // حفظ الملف المدمج
+                const pdfBytes = await newPdf.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                // تنزيل الملف المدمج
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `split_pages_${startPage}-${endPage}.pdf`;
+                a.click();
+                URL.revokeObjectURL(url);
+                swal("الملف جاهز!", "تم تقسيم ودمج الملف بنجاح!", "success")
+                progressText.textContent = "100%"; // عند الانتهاء
+            } catch (error) {
+                console.error("حدث خطأ أثناء تقسيم ودمج الملف:", error);
+                swal({
+                    title: "حدث خطأ!",
+                    text: "حدث خطأ أثناء معالجة الملف يرجى اعادة المحاولة.",
+                    type: "error",
+                    confirmButtonText: "حـسـنـاً"
+                });
+                progressText.textContent = "0%"; // في حالة حدوث خطأ
+            }
+        }
+
+
+        // ____________________________________________________________
+        // دمج الملفات
+        async function mergePDFs() {
+            let MergePdfName = 'merged.pdf';
+
+            const input = document.getElementById('inpUploadPdf');
+            const files = input.files;
+
+            // التحقق من وجود ملفات PDF واختيار ملفات متعددة
+            if (files.length < 2) {
+                swal({
+                    title: "خـطـاء!",
+                    text: "يرجى اختيار ملفين أو أكثر لدمجها.",
+                    type: "error",
+                    confirmButtonText: "حسـنـاً"
+                });
+                return;
+            }
+
+            const progressText = document.getElementById('progress-text');
+            let totalPages = 0;  // المتغير الذي سيحفظ العدد الكلي للصفحات
+            let pagesProcessed = 0;  // المتغير الذي سيحفظ عدد الصفحات المعالجة
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+
+                // حساب العدد الكلي للصفحات قبل بدء المعالجة
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    
+                    // التحقق من أن الملف هو PDF
+                    if (!file.name.endsWith('.pdf')) {
+                        swal("تنبية!", `يرجى اختيار ملفات PDF فقط. تم تجاهل الملف: ${file.name}`)
+                        continue;
+                    }
+
+                    const fileBytes = await file.arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(fileBytes);
+                    totalPages += pdfDoc.getPageCount();  // إضافة عدد الصفحات من الملف الحالي إلى العدد الكلي
+                }
+
+                // معالجة كل ملف PDF
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+
+                    // التحقق من أن الملف هو PDF
+                    if (!file.name.endsWith('.pdf')) {
+                        continue;  // تخطي الملف غير PDF
+                    }
+
+                    const fileBytes = await file.arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(fileBytes);
+                    const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+
+                    // إضافة الصفحات إلى المستند المدمج
+                    pages.forEach(page => mergedPdf.addPage(page));
+
+                    // تحديث عدد الصفحات المعالجة
+                    pagesProcessed += pages.length;
+
+                    // تحديث نسبة التقدم وعدد الصفحات المعالجة
+                    const progress = Math.round(((i + 1) / files.length) * 100);
+                    progressText.textContent = `تم معالجة ${pagesProcessed} من ${totalPages} صفحة. النسبة: ${progress}%`;
+                    swal("انتهئ", "تمت العملية بنجاح", "success")
+                }
+
+                // حفظ الملف المدمج
+                const mergedPdfBytes = await mergedPdf.save();
+
+                // تنزيل الملف المدمج
+                const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = MergePdfName;
+                a.click();
+                URL.revokeObjectURL(url); // تحرير الموارد
+
+                progressText.textContent = "تم دمج الملفات بنجاح!";
+            } catch (error) {
+                console.error("حدث خطأ أثناء دمج الملفات:", error);
+                swal({
+                    title: "حدث خطأ!",
+                    text: "حدث خطأ أثناء دمج الملفات. يرجى التحقق من الملفات.",
+                    type: "error",
+                    confirmButtonText: "حـسـنـاً"
+                });
+            }
+        }
+
+
+        // ____________________________________________________________
+        var layout = "default";
+        var numberPage = null;
+        // عدد الصفحات
+        function File_Length() {
+
+            let numPage = 1;
+            $(function () {
+
+                if(numberPage < 2) {
+                    $("#numpage span").text(1)
+
+                } else if(layout == "default") {
+                    numPage = numberPage
+
+                } else if (layout == "four") {
+                    
+                    if(numberPage %2 == 0) {
+                        numPage = numberPage / 4
+
+                    } else if(numberPage %2 == 1) {
+                        numPage = parseInt(numberPage / 3 + 1)
+                    }
+
+                } else if (layout.includes("two")) {
+                    if(numberPage %2 == 0) {
+                        numPage = numberPage / 2
+
+                    } else if(numberPage %2 == 1) {
+                        numPage = parseInt(numberPage / 2 + 1)
+                    }
+                }
+
+                if(numberPage == null ) {
+                    $("#numpage span").text('')
+                } else if(numberPage != null ) {
+                    $("#numpage span").text(numPage)
+                }
+
+            })
+        }
+
+        // ____________________________________________________________
+        // تحويل الصور الى ملف pdf
+        function buttons_upload_image(even) {
+
+            const maxFiles = 50; // الحد الأقصى لعدد الملفات
+            const input = event.target;
+            const files = Array.from(input.files);
+
+            // استدعاء دالة عدد الصفحات
+            numberPage = files.length
+            File_Length();
+
+            // الاحتفاظ فقط بالعدد المسموح به
+            const validFiles = files.slice(0 ,maxFiles);
+
+            // إنشاء قائمة جديدة للملفات المسموح بها باستخدام DataTransfer
+            const dataTransfer = new DataTransfer();
+            validFiles.forEach(file => dataTransfer.items.add(file));
+
+            // تعيين الملفات الجديدة إلى المدخل
+            input.files = dataTransfer.files;
+
+            // إخطار المستخدم إذا تم حذف ملفات زائدة
+            if (files.length > maxFiles) {
+                swal({
+                    title: "تـــنـــبـــيـــة",
+                    text: `تم الاحتفاظ بأول ${maxFiles} ملفات فقط. تم حذف الملفات الزائدة.`,
+                    button: "حسنًا",
+                    className: "swal",
+                });
+            }
+
+
+            // عرض الصور في المعرض
+            const gallery = document.getElementById("imageContainer");
+            // gallery.innerHTML = ""; // إفراغ المعرض قبل إضافة الصور الجديدة
+
+            const existingSources = Array.from(gallery.querySelectorAll("img")).map(img => img.src);
+
+
+            validFiles.forEach((file, index) => {
+                const div = document.createElement("div");
+                // div.classList.add("image-item");
+
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+               
+                const i = document.createElement("i");
+                i.innerHTML = '<i class="bi bi-trash"></i>';
+                i.classList.add(`d${index}`);
+
+                const output = document.getElementById("output")
+                const inp = document.createElement("input");
+                inp.type = 'file'
+
+                const data = new DataTransfer()
+                data.items.add(files[index])
+
+                inp.files = data.files;
+
+                output.appendChild(inp)
+
+                i.onclick = () => {
+                    div.remove();
+                    inp.remove();
+
+                    $(function () {
+                        let firstImage = $("#imageContainer img:first").attr("src")
+                        $("#numImgs").text($("#imageContainer img").length)     
+                    })
+                }
+                
+                div.appendChild(img);
+                div.appendChild(i);
+                gallery.appendChild(div);
+
+                $(function () {
+                    $("#numImgs").text($("#imageContainer img").length)
+                })
+
+                if(index == 0) {
+                    // document.querySelector("#uploadImages img").src = URL.createObjectURL(file);
+                    
+                    $(function () {
+                        $("#imageContainer div:first-child").css("border-color" ,"#ffc107")
+                    })
+                }
+                
+                // لتحرير الذاكرة عند عدم الحاجة إلى الصورة
+                img.onload = () => URL.revokeObjectURL(img.src);
+
+            });
+
+            $(function () {
+                $("#BtnConvertPdf ,#btnNewConvert").attr("disabled" ,false);
+                $("#imageContainer img").click(function () {
+                    $("#imageContainer div").css("border-color" ,"transparent")
+                    $(this).parents("div").css("border-color" ,"#ffc107")
+                })
+            })
+
+        }
+        document.getElementById('inpUploadImages').addEventListener('change', buttons_upload_image)
+        
+        function googleTranslateElementInit() {
+            // إعداد أداة الترجمة من Google
+            new google.translate.TranslateElement({
+                pageLanguage: 'ar', // اللغة الافتراضية للصفحة
+                includedLanguages: 'en,ru,hi,de,it,zh-CN,zh-TW', // اللغات المتوفرة
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+    
+            // الكشف عن لغة المتصفح
+            const userLang = navigator.language || navigator.userLanguage; // لغة المتصفح
+            const targetLang = userLang.split('-')[0]; // استخراج الكود الأساسي للغة (مثال: en)
+    
+            // إذا كانت اللغة ليست العربية، الترجمة تلقائيًا
+            if (targetLang !== 'ar') {
+                setTimeout(() => {
+                    const select = document.querySelector('.goog-te-combo');
+                    if (select) {
+                        select.value = targetLang; // ضبط اللغة الهدف
+                        select.dispatchEvent(new Event('change')); // تغيير اللغة تلقائيًا
+                    }
+                }, 1000); // تأخير بسيط لضمان تحميل Google Translate
+            }
+
+            $(document).ready(function () {
+                setInterval(() => {
+                    let lang = document.documentElement.getAttribute("lang");
+                    if(lang != "ar") {
+                        $("html").attr("dir","ltr");
+                        $("#info li").css("text-align","left");
+                    } else {
+                        $("html").attr("dir","rtl");
+                        $("#info li").removeAttr("style");
+                    }
+
+                }, 500);
+            })
+        }
+
+        
+        $(function () {
+            // جديد
+            $("#btnNewConvert").click(function () {
+                $("#inpUploadImages").val('');
+                $("#numImgs").text('');
+                $("#progress").text('0%');
+
+                $("#dropdown button").text("التنسيق ∨")
+                $("#dropdown span i").css("border-color" ,"")
+                layout = "default";
+                $("#dropdown #default i").css("border-color" ,"red")
+                $("#dropdown div").css("display" ,"none")
+
+                $("#imageContainer div ,#output input").remove();
+                $("#BtnConvertPdf ,#btnNewConvert").attr("disabled" ,true);
+            })
+            // التنسيق
+            $("#dropdown button").click(function () {
+                let div_display = $("#dropdown div").css("display");
+
+                if(div_display == "none") {
+                    $(this).text("التنسيق ∧")
+                    $("#dropdown div").css("display" ,"flex")
+                } else {
+                    $(this).text("التنسيق ∨")
+                    $("#dropdown div").css("display" ,"none")
+                } 
+            })
+            $("#dropdown span").click(function () {
+                layout = $(this).attr("id")
+                $("#dropdown button").text("التنسيق ∨")
+                $("#dropdown span i").css("border-color" ,"")
+                $(this).children("i").css("border-color" ,"red")
+                $("#dropdown div").css("display" ,"none")
+                console.log(layout);
+
+                File_Length();
+            })
+        })
+
+
+        // ____________________________________________________________
+        // تحويل
+        document.getElementById('BtnConvertPdf').addEventListener('click', async function () {
+            
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            const inputs = document.querySelectorAll('#output input[type="file"]');
+
+            let isFirstPage = true;
+            let pageNumber = 1; // متغير لتعقب رقم الصفحة
+
+            const files = Array.from(inputs).flatMap(input => Array.from(input.files));
+
+            if (files.length === 0) {
+                swal("تـنـبـيـة", "اختر صورة واحدة على الاقل.", "success")
+                return;
+            }
+
+            const progress = document.getElementById('progress');
+            let processedFiles = 0;
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+
+            var PdfName = 'images.pdf';
+
+            function calculatePositions(layout, imgWidth, imgHeight) {
+                const positions = [];
+                switch (layout) {
+                    case 'four': {
+                        const newWidth = pageWidth / 2; // نصف عرض الصفحة
+                        const newHeight = pageHeight / 2; // نصف ارتفاع الصفحة
+
+                        for (let i = 0; i < 4; i++) {
+                            const scale = Math.min(newWidth / imgWidth, newHeight / imgHeight); // تصغير الصورة لتناسب المساحة
+                            const scaledWidth = imgWidth * scale;
+                            const scaledHeight = imgHeight * scale;
+
+                            positions.push({
+                                x: (i % 2) * newWidth, // وضع الصورة بشكل متقارب أفقياً
+                                y: Math.floor(i / 2) * newHeight, // وضع الصورة بشكل متقارب عمودياً
+                                w: newWidth / 1.01, // استخدام عرض المساحة بالكامل
+                                h: newHeight / 1.01, // استخدام ارتفاع المساحة بالكامل
+                            });
+                        }
+                        break;
+                    }
+                    case 'two-horizontal': {
+                        const newWidth = pageWidth / 2; // نصف عرض الصفحة
+                        const newHeight = pageHeight; // الارتفاع الكامل
+
+                        for (let i = 0; i < 2; i++) {
+                            const scale = Math.min(newWidth / imgWidth, newHeight / imgHeight);
+                            const scaledWidth = imgWidth * scale;
+                            const scaledHeight = imgHeight * scale;
+
+                            positions.push({
+                                x: i * newWidth, // وضع الصور بشكل متقارب أفقياً
+                                y: 0, // لا يوجد فراغ عمودي
+                                w: newWidth / 1.01, // ملء المساحة العرضية
+                                h: pageHeight / 1.01, // استخدام ارتفاع الصفحة بالكامل
+                            });
+                        }
+                        break;
+                    }
+                    case 'two-vertical': {
+                        const newWidth = pageWidth; // العرض الكامل
+                        const newHeight = pageHeight / 2; // نصف الارتفاع
+
+                        for (let i = 0; i < 2; i++) {
+                            const scale = Math.min(newWidth / imgWidth, newHeight / imgHeight);
+                            const scaledWidth = imgWidth * scale;
+                            const scaledHeight = imgHeight * scale;
+
+                            positions.push({
+                                x: 0, // لا يوجد فراغ أفقي
+                                y: i * newHeight, // وضع الصور بشكل متقارب عمودياً
+                                w: pageWidth / 1.01, // ملء المساحة العرضية
+                                h: newHeight / 1.01, // ملء المساحة الطولية
+                            });
+                        }
+                        break;
+                    }
+                    default: {
+                        // الحالة الافتراضية لملء صفحة واحدة
+                        const imgRatio = imgWidth / imgHeight;
+                        const pageRatio = pageWidth / pageHeight;
+                        let scaledWidth, scaledHeight;
+
+                        if (imgRatio > pageRatio) {
+                            scaledWidth = pageWidth;
+                            scaledHeight = pageWidth / imgRatio;
+                        } else {
+                            scaledHeight = pageHeight;
+                            scaledWidth = pageHeight * imgRatio;
+                        }
+
+                        positions.push({
+                            x: (pageWidth - scaledWidth) / 2,
+                            y: (pageHeight - scaledHeight) / 2,
+                            w: scaledWidth / 1.01,
+                            h: scaledHeight / 1.01,
+                        });
+                    }
+                }
+                return positions;
+            }
+
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const imgData = await getBase64(file);
+
+                const img = new Image();
+                img.src = imgData;
+                await new Promise((resolve) => (img.onload = resolve));
+
+                const positions = calculatePositions(layout, img.width, img.height);
+
+                if (i % positions.length === 0) {
+                    if (!isFirstPage) pdf.addPage();
+                    isFirstPage = false;
+
+                    // إضافة رقم الصفحة في أسفل الصفحة الحالية
+                    pdf.setFontSize(10); // حجم النص
+                    pdf.text(`Page: ${pageNumber}`, pageWidth / 2, pageHeight - 10, { align: "center" }); // تنسيق النص
+                    pageNumber++; // زيادة رقم الصفحة
+                }
+
+                const pos = positions[i % positions.length];
+                pdf.addImage(imgData, 'JPEG', pos.x, pos.y, pos.w, pos.h);
+
+                processedFiles++;
+
+                const progressPercent = Math.round((processedFiles / files.length) * 100);
+                progress.textContent = progressPercent + '%';
+            }
+
+            // إضافة رقم الصفحة الأخيرة
+            pdf.setFontSize(10);
+            pdf.text(`Page ${pageNumber}`, pageWidth / 2, pageHeight - 10, { align: "center" });
+
+            pdf.save(PdfName); // حفظ ملف PDF
+        
+        
+        
+        }); 
+
+
+        // دالة لتحويل الصورة إلى Base64
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+    </script>
+    <!-- <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
+    
+</body>
+</html>
